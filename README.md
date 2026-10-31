@@ -1,27 +1,121 @@
-# Machine Learning Course Projects
- 
-This repository contains projects and assignments completed during a machine learning course.
- 
-## About
- 
-This repository showcases practical work covering the key stages of machine learning.
- 
-## Topics Covered
- 
-- NumPy and pandas fundamentals
-- Full exploratory data analysis (EDA) cycle
-- Data cleaning and preprocessing
-- Building machine learning pipelines
-- K-nearest neighbors (KNN)
-- Linear regression
-- Logistic regression
-- Naive Bayes classifier
-- Support vector machines (SVM)
-- Random forest
-- Gradient boosting
-- Hyperparameter tuning
-- Clustering
-- Principal component analysis (PCA)
-## Structure
- 
-Each folder or file corresponds to a specific topic studied during the course.
+# ML Course Homework
+
+Портфолио практических работ по машинному обучению: от разведочного анализа данных до бустинга, интерпретируемости моделей и снижения размерности. В каждой работе полный цикл: постановка задачи, подготовка данных, моделирование, метрики, анализ ошибок и выводы.
+
+
+## Что представлено в работе
+
+- **Алгоритмы реализованы с нуля**, а не только вызваны из библиотек: логистическая регрессия (градиентный спуск, log-loss), гауссовский наивный Байес и градиентный бустинг (`MyBoost`) написаны на NumPy и сравнены с эталонными реализациями.
+- **Аккуратная работа с данными:** масштабирование только по train, `Pipeline` против утечки, стратифицированные разбиения, отдельная validation-выборка.
+- **Интерпретируемость:** Permutation Importance, PDP/ICE и SHAP, включая эксперимент с искусственной утечкой данных и поиск «шумовых» признаков.
+- **Осмысленные выводы:** в каждой работе результаты объясняются, а не только перечисляются; ограничения экспериментов описаны в README папок.
+
+## Навыки, которые показывает репозиторий
+
+| Область | Что сделано |
+| :--- | :--- |
+| **EDA и подготовка данных** | пропуски (mean/median/mode/константа), выбросы, асимметрия и эксцесс, One-Hot и Feature Hashing, генерация признаков |
+| **Классическое ML** | KNN, линейная и логистическая регрессия, наивный Байес, SVM, деревья и случайный лес |
+| **Ансамбли и бустинг** | XGBoost, LightGBM, CatBoost, собственная реализация градиентного бустинга |
+| **Подбор гиперпараметров** | `GridSearchCV`, `RandomizedSearchCV`, ручной grid search, кросс-валидация |
+| **Интерпретируемость** | Permutation Importance, PDP/ICE, SHAP, диагностика утечек |
+| **Обучение без учителя** | DBSCAN, k-distance plot, K-Means, silhouette |
+| **Снижение размерности** | PCA, t-SNE, UMAP, loadings, реконструкция |
+| **Оценка качества** | accuracy, precision, recall, F1, ROC-AUC, MAE, RMSE, R², confusion matrix |
+| **Инженерная культура** | воспроизводимость (`random_state`), Pipeline, документирование каждой работы |
+
+## Содержание
+
+| № | Работа | Тип задачи | Данные | Ключевой результат |
+| :--- | :--- | :--- | :--- | :--- |
+| [00](./00_introduction) | Введение | — | — | Настройка окружения и инструментов |
+| [01](./01_eda_house_prices) | EDA цен на жильё | анализ данных | House Prices (Kaggle) | `OverallQual` — главный признак (корреляция около 0.8) |
+| [02](./02_knn_wine_quality) | KNN | классификация | Wine Quality | Manhattan, `k` 35–45; масштабирование: 0.515 → 0.559 |
+| [03](./03_linear_regression_toyota_corolla) | Линейная регрессия | регрессия | Toyota Corolla | R² ≈ 0.89, MAE ≈ 822 € |
+| [04](./04_logistic_regression_from_scratch) | Логистическая регрессия с нуля | бинарная классификация | Breast Cancer | accuracy 0.974 против 0.983 у sklearn |
+| [05](./05_naive_bayes_from_scratch) | Наивный Байес с нуля | многоклассовая классификация | Iris | полное совпадение с `GaussianNB` (0.967) |
+| [06](./06_svm_breast_cancer) | SVM | бинарная классификация | Breast Cancer | масштабирование: 0.947 → 0.982, RBF лучше linear |
+| [07](./07_random_forest_toyota_corolla) | Дерево и случайный лес | регрессия | Toyota Corolla | лес: R² = 0.929 против 0.888 у линейных |
+| [08](./08_gradient_boosting_california_housing) | Градиентный бустинг | регрессия | California Housing | LightGBM: R² = 0.854 за 0.7 с |
+| [09](./09_hyperparameter_tuning_interpretability) | Гиперпараметры и интерпретируемость | классификация | Breast Cancer | PI и SHAP находят утечку и шумовые признаки |
+| [10](./10_dbscan_clustering) | DBSCAN | кластеризация | moons, circles, Wine | справляется с нелинейными формами, где K-Means ошибается |
+| [11](./11_dimensionality_reduction) | PCA, t-SNE, UMAP | снижение размерности | Digits | 40 компонент = 95% дисперсии; UMAP: Silhouette 0.569 |
+
+## Путь по курсу
+
+Работы выстроены как последовательное погружение в ML:
+
+1. **Данные.** Сначала разведочный анализ и подготовка (`00`–`01`): без понимания данных модели строить рано.
+2. **Базовые модели.** KNN, линейная и логистическая регрессия, наивный Байес (`02`–`05`); часть из них реализована вручную, чтобы понять, как алгоритм работает внутри.
+3. **Более мощные модели.** SVM, лес, бустинг (`06`–`08`): что даёт нелинейность и ансамблирование и чем за это приходится платить (скорость, интерпретируемость).
+4. **Качество и доверие к модели.** Подбор гиперпараметров и интерпретируемость (`09`): как проверить, что модель учит закономерности, а не утечку.
+5. **Структура данных.** Кластеризация и снижение размерности (`10`–`11`): что можно узнать о данных без разметки.
+
+## Выбранные результаты подробнее
+
+### Алгоритмы «с нуля» против библиотек
+
+| Алгоритм | Своя реализация | Библиотека | Вывод |
+| :--- | :--- | :--- | :--- |
+| Логистическая регрессия | accuracy 0.9737, ROC-AUC 0.9957 | accuracy 0.9825, ROC-AUC 0.9954 | различия объясняются L2-регуляризацией и оптимизатором в sklearn |
+| Gaussian Naive Bayes | accuracy 0.9667 | accuracy 0.9667 | метрики и параметры совпали полностью |
+| Градиентный бустинг | R² = 0.841, 60.6 с | LightGBM: R² = 0.854, 0.7 с | качество сопоставимо, скорость на порядки хуже |
+
+### Что показали эксперименты
+
+- Масштабирование критично для KNN и SVM: без него точность падает.
+- Регуляризация (Ridge, Lasso) не помогла там, где у обычной линейной регрессии не было переобучения.
+- Случайный лес обошёл линейные модели на задаче цен Corolla, но заплатил временем обучения.
+- Встроенная важность признаков и Permutation Importance могут давать разный порядок: коррелированные признаки делят важность.
+- DBSCAN решает задачи, непосильные K-Means, но требует аккуратного подбора `eps`.
+- Для визуализации UMAP разделил классы лучше PCA и t-SNE по Silhouette (0.569 против 0.055 и 0.485).
+
+## Структура репозитория
+
+```
+Ml_course_homework/
+├── 00_introduction/
+├── 01_eda_house_prices/
+├── 02_knn_wine_quality/
+├── 03_linear_regression_toyota_corolla/
+├── 04_logistic_regression_from_scratch/
+├── 05_naive_bayes_from_scratch/
+├── 06_svm_breast_cancer/
+├── 07_random_forest_toyota_corolla/
+├── 08_gradient_boosting_california_housing/
+├── 09_hyperparameter_tuning_interpretability/
+├── 10_dbscan_clustering/
+├── 11_dimensionality_reduction/
+└── README.md
+```
+
+В каждой папке:
+- `*.ipynb` — ноутбук с решением;
+- `README.md` — постановка задачи, данные, ход работы, результаты и выводы.
+
+## Как запустить
+
+```bash
+git clone https://github.com/MariaBuchkova/Ml_course_homework.git
+cd Ml_course_homework
+
+pip install numpy pandas matplotlib seaborn scipy scikit-learn
+pip install xgboost lightgbm catboost shap umap-learn kagglehub optuna
+jupyter notebook
+```
+
+Или откройте нужный ноутбук в Google Colab. Большинство датасетов загружается автоматически (`scikit-learn`, `kagglehub`). Для работы `01` файл `train.csv` нужно скачать вручную со [страницы соревнования на Kaggle](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques).
+
+## Стек
+
+**Язык и среда:** Python, Jupyter Notebook, Google Colab, Git  
+**Данные и визуализация:** NumPy, pandas, Matplotlib, seaborn, SciPy  
+**Моделирование:** scikit-learn, XGBoost, LightGBM, CatBoost  
+**Интерпретация и проекции:** SHAP, UMAP, t-SNE
+
+## Планы развития
+
+- нейронные сети и глубокое обучение;
+- кросс-валидация и отбор признаков в работах, где подбор шёл по одной валидационной выборке;
+- работа с текстом и временными рядами;
+- упаковка лучших моделей в пайплайны.
